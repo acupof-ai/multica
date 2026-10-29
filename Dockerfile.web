@@ -4,6 +4,10 @@
 # 2026-10-21 Node.js security release (CVE-2026-111497, CVE-2026-106069,
 # CVE-2026-105482, ...). Bump all three stages together.
 FROM node:22.23.4-alpine AS deps
+ENV NODE_OPTIONS=--max-old-space-size=6144 \
+    COREPACK_NPM_REGISTRY=https://registry.npmmirror.com \
+    COREPACK_ENABLE_DOWNLOAD_PROMPT=0 \
+    NPM_CONFIG_REGISTRY=https://registry.npmmirror.com
 
 WORKDIR /app
 
@@ -27,6 +31,10 @@ RUN pnpm install --frozen-lockfile
 
 # --- Build ---
 FROM node:22.23.4-alpine AS builder
+ENV NODE_OPTIONS=--max-old-space-size=6144 \
+    COREPACK_NPM_REGISTRY=https://registry.npmmirror.com \
+    COREPACK_ENABLE_DOWNLOAD_PROMPT=0 \
+    NPM_CONFIG_REGISTRY=https://registry.npmmirror.com
 
 WORKDIR /app
 
